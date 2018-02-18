@@ -7,7 +7,7 @@ import Dashboard from '../Dashboard';
 class Main extends Component {
     render() {
         return (
-            <div>
+            <React.Fragment>
                 <Switch>
                     <Route exact path="/" render={() => (
                         !this.props.isLoggedIn ? (
@@ -18,7 +18,7 @@ class Main extends Component {
                     )}/>
                     <Route path="/login" component={Login}/>
                 </Switch>
-            </div>
+            </React.Fragment>
         )
     }
 }
