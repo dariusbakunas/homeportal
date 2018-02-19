@@ -1,32 +1,20 @@
 import React, { Component } from 'react';
 import { Route, Redirect, Switch, withRouter } from 'react-router';
-import { connect } from 'react-redux';
-import Login from '../Login';
+import PrivateRoute from '../Auth/PrivateRoute';
 import Dashboard from '../Dashboard';
+import Callback from '../Auth/Callback';
 
 class Main extends Component {
     render() {
         return (
             <React.Fragment>
                 <Switch>
-                    <Route exact path="/" render={() => (
-                        !this.props.isLoggedIn ? (
-                            <Redirect to="/login"/>
-                        ) : (
-                            <Dashboard/>
-                        )
-                    )}/>
-                    <Route path="/login" component={Login}/>
+                    <PrivateRoute path="/" exact component={Dashboard}/>
+                    <Route path="/callback" component={Callback}/>
                 </Switch>
             </React.Fragment>
         )
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        isLoggedIn: state.auth.isLoggedIn,
-    };
-};
-
-export default withRouter(connect(mapStateToProps)(Main));
+export default Main;

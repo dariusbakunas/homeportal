@@ -10,6 +10,7 @@ import createHistory from 'history/createBrowserHistory';
 import reducers from './reducers';
 import './index.css';
 import Main from './containers/Main';
+import serviceSaga from './sagas';
 import registerServiceWorker from './registerServiceWorker';
 
 const history = createHistory();
@@ -21,8 +22,10 @@ const composeEnhancers =
             // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
         }) : compose;
 
+const sagaMiddleware = createSagaMiddleware();
+
 const enhancer = composeEnhancers(
-    applyMiddleware(routerMiddleware(history), createSagaMiddleware()),
+    applyMiddleware(routerMiddleware(history), sagaMiddleware),
     // other store enhancers if any
 );
 
@@ -33,6 +36,8 @@ let store = createStore(
     }),
     enhancer,
 );
+
+sagaMiddleware.run(serviceSaga);
 
 ReactDOM.render(
     <Provider store={store}>
