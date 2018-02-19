@@ -9,6 +9,10 @@ function authReducer(state = { isAuthenticated: false }, action) {
             idToken: action.idToken,
             expiresAt: action.expiresAt,
         };
+    } else if (action.type === mainActions.logout.successType) {
+      return {
+        isAuthenticated: false,
+      };
     }
     return state;
 }

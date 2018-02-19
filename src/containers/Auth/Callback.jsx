@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {connect} from "react-redux";
 import { withRouter } from 'react-router';
 import * as actions from "../Main/actions";
+import { Loader, Dimmer } from 'semantic-ui-react'
 
 // import loading from './loading.svg';
 
@@ -12,9 +13,9 @@ export class Callback extends Component {
 
     render() {
         return (
-            <div>
-                Loading...
-            </div>
+          <Dimmer active>
+            <Loader indeterminate>Loading...</Loader>
+          </Dimmer>
         );
     }
 }

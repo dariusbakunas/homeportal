@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
+import { Loader, Dimmer } from 'semantic-ui-react'
 import * as actions from "../Main/actions";
 
 export class PrivateWrapper extends React.PureComponent {
@@ -19,7 +20,11 @@ export class PrivateWrapper extends React.PureComponent {
   }
 
   render() {
-    return this.props.isAuthenticated ? this.props.children : 'You must login first';
+    return this.props.isAuthenticated ?
+      this.props.children :
+      <Dimmer active>
+        <Loader indeterminate>Authenticating...</Loader>
+      </Dimmer>
   }
 }
 

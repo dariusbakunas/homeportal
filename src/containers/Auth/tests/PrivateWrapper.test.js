@@ -13,7 +13,7 @@ test('it does not render children if isAuthenticated is false', () => {
     </PrivateWrapper>
   );
   expect(actions.login.mock.calls.length).toBe(1);
-  expect(element.text()).toBe('You must login first');
+  expect(element.find('Loader').prop('children')).toBe('Authenticating...');
 });
 
 test('it should render children if isAuthenticated is true', () => {
