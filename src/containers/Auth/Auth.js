@@ -10,22 +10,6 @@ export default class Auth {
         scope: process.env.REACT_APP_AUTH_SCOPE,
     });
 
-    // isAuthenticated = () => {
-    //     // Check whether the current time is past the
-    //     // Access Token's expiry time
-    //     let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-    //     return new Date().getTime() < expiresAt;
-    // };
-
-    // logout = () => {
-    //     // Clear Access Token and ID Token from local storage
-    //     localStorage.removeItem('access_token');
-    //     localStorage.removeItem('id_token');
-    //     localStorage.removeItem('expires_at');
-    //     // navigate to the home route
-    //     history.replace('/home');
-    // };
-
     handleAuthentication = () => {
         return new Promise((resolve, reject) => {
             this.auth0.parseHash((err, authResult) => {
