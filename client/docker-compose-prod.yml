@@ -5,7 +5,7 @@ services:
   homeportal-prod:
     container_name: homeportal-prod
     build:
-      context: .
+      context: ../
       dockerfile: Dockerfile-prod
     ports:
       - '80:80'
