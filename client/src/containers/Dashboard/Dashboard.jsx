@@ -51,6 +51,22 @@ class Dashboard extends Component {
 	render() {
 		return (
 			<React.Fragment>
+        <Modal open={this.state.signOutModalOpen} size='mini' onClose={this.closeSignOutModal}>
+          <Modal.Header>
+            Confirmation
+          </Modal.Header>
+          <Modal.Content>
+            <p>Are you sure you want to sign out?</p>
+          </Modal.Content>
+          <Button.Group attached='bottom' basic>
+            <Button onClick={this.closeSignOutModal}>
+              Cancel
+            </Button>
+            <Button onClick={this.props.actions.logout}>
+              Sign Out
+            </Button>
+          </Button.Group>
+        </Modal>
 				<Menu inverted fixed="top">
 					<Menu.Item icon onClick={this.toggleSidebar}>
 						<Icon name='sidebar'/>
@@ -93,22 +109,6 @@ class Dashboard extends Component {
 						<Container>
 							<div>DASHBOARD</div>
 						</Container>
-						<Modal open={this.state.signOutModalOpen} size='mini' onClose={this.closeSignOutModal}>
-							<Modal.Header>
-								Confirmation
-							</Modal.Header>
-							<Modal.Content>
-								<p>Are you sure you want to sign out?</p>
-							</Modal.Content>
-							<Button.Group attached='bottom' basic>
-								<Button onClick={this.closeSignOutModal}>
-									Cancel
-								</Button>
-								<Button onClick={this.props.actions.logout}>
-									Sign Out
-								</Button>
-							</Button.Group>
-						</Modal>
 					</Sidebar.Pusher>
 				</Sidebar.Pushable>
 			</React.Fragment>
