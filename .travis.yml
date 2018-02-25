@@ -5,13 +5,10 @@ cache:
   directories:
   - node_modules
   - client/node_modules
-install:
-  - 'if [ $TEST_SUITE = "client" ]; then cd client && npm install; fi
-  - 'if [ $TEST_SUITE = "server" ]; then npm install; fi'
 env:
     matrix:
       - TEST_SUITE=client
       - TEST_SUITE=server
 script:
- - 'if [ $TEST_SUITE = "client" ]; then cd client && npm test; fi'
- - 'if [ $TEST_SUITE = "server" ]; then npm test; fi'
+  - 'if [ $TEST_SUITE = "client" ]; then cd client && npm install && npm test; fi'
+  - 'if [ $TEST_SUITE = "server" ]; then npm install && npm test; fi'
