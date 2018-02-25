@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+  - "8"
+cache:
+  directories:
+  - node_modules
+  - client/node_modules
+env:
+    matrix:
+      - TEST_SUITE=client
+      - TEST_SUITE=server
+script:
+  - 'if [ $TEST_SUITE = "client" ]; then cd client && npm install && npm test; fi'
+  - 'if [ $TEST_SUITE = "server" ]; then npm install && npm test; fi'
