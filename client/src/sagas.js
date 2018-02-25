@@ -1,16 +1,16 @@
 import { call, all, put, takeLatest, takeEvery } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
 import Auth from './containers/Auth/Auth';
+import { loadAuthInfo } from './utils/localStorage';
 import * as mainActions from './containers/Main/actions';
 
 const auth = new Auth();
 
 function* login() {
-  const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-  if (expiresAt && new Date().getTime() < expiresAt) {
-    const fullName = localStorage.getItem('full_name');
-    const accessToken = localStorage.getItem('access_token');
-    const idToken = localStorage.getItem('id_token');
+  const authInfo = loadAuthInfo();
+
+  if (authInfo) {
+    const {fullName, accessToken, idToken, expiresAt} = authInfo;
 
     yield put(mainActions.login.success(
       fullName,
@@ -31,6 +31,10 @@ function* logout() {
   yield put(mainActions.logout.success());
 }
 
+function* goToDashboard(action) {
+  yield put(push('/'));
+}
+
 function* handleAuth(action) {
   if (/access_token|id_token|error/.test(action.locationHash)) {
     try {
@@ -49,7 +53,6 @@ function* handleAuth(action) {
         idToken,
         expiresAt
       ));
-      yield put(push('/'));
     } catch(err) {
       // we call login first and handleAuth second
       yield put(mainActions.login.error(err));
@@ -63,5 +66,6 @@ export default function* rootSaga() {
     yield takeLatest(mainActions.login.requestType, login),
     yield takeLatest(mainActions.handleAuth.requestType, handleAuth),
     yield takeEvery(mainActions.logout.requestType, logout),
+    yield takeEvery(mainActions.login.successType, goToDashboard),
   ]);
 }
