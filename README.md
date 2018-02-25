@@ -7,13 +7,15 @@
 
 * Install dependencies:
 
-    % npm install && cd client && npm install
+    ```% npm install && cd client && npm install```
 
 * Create .env file at project root, set values for Auth0 config:
 
+    ```
     REACT_APP_AUTH_DOMAIN=
     REACT_APP_AUTH_CLIENT_ID=
     REACT_APP_AUTH_REDIRECT_URI=http://localhost:3000/callback
     REACT_APP_AUTH_AUDIENCE=
     REACT_APP_AUTH_RESPONSE_TYPE=
     REACT_APP_AUTH_SCOPE=
+    ```
