@@ -19,3 +19,9 @@
     REACT_APP_AUTH_RESPONSE_TYPE=
     REACT_APP_AUTH_SCOPE=
     ```
+
+* Start node and webpack dev server:
+
+    ```% npm run dev```
+
+* Go to [http://localhost:3000/](http://localhost:3000/) to access the app
