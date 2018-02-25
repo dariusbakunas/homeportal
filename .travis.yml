@@ -6,8 +6,8 @@ cache:
   - node_modules
   - client/node_modules
 install:
-  - cd client && npm install
-  - npm install
+  - 'if [ $TEST_SUITE = "client" ]; then cd client && npm install; fi
+  - 'if [ $TEST_SUITE = "server" ]; then npm install; fi'
 env:
     matrix:
       - TEST_SUITE=client
