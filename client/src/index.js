@@ -16,7 +16,7 @@ import registerServiceWorker from './registerServiceWorker';
 const history = createHistory();
 
 const composeEnhancers =
-    typeof window === 'object' &&
+    process.env.NODE_ENV !== 'production' && typeof window === 'object' &&
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
         window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
             // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
