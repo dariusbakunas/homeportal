@@ -2,8 +2,6 @@ import auth0 from 'auth0-js';
 
 export default class Auth {
     constructor() {
-      console.log(window.env);
-
       this.auth0 = new auth0.WebAuth({
         domain: this.getEnvVariable('REACT_APP_AUTH_DOMAIN'),
         clientID: this.getEnvVariable('REACT_APP_AUTH_CLIENT_ID'),
