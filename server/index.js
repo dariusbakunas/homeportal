@@ -2,8 +2,24 @@ const express = require('express');
 const path = require('path');
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
+const serialize = require('serialize-javascript');
 
 const PORT = process.env.PORT || 5000;
+
+if (!process.env.REACT_APP_AUTH_SCOPE) {
+    require('dotenv').config();
+}
+
+const env = {
+    'API_URL': process.env.API_URL,
+    'DYNO': process.env.DYNO || 'Not running on a dyno',
+    'REACT_APP_AUTH_SCOPE': process.env.REACT_APP_AUTH_SCOPE,
+    'REACT_APP_AUTH_DOMAIN': process.env.REACT_APP_AUTH_DOMAIN,
+    'REACT_APP_AUTH_CLIENT_ID': process.env.REACT_APP_AUTH_CLIENT_ID,
+    'REACT_APP_AUTH_AUDIENCE': process.env.REACT_APP_AUTH_AUDIENCE,
+    'REACT_APP_AUTH_RESPONSE_TYPE': process.env.REACT_APP_AUTH_RESPONSE_TYPE,
+    'REACT_APP_AUTH_REDIRECT_URI': process.env.REACT_APP_AUTH_REDIRECT_URI,
+};
 
 // Multi-process to utilize all CPU cores.
 if (cluster.isMaster) {
@@ -28,6 +44,11 @@ if (cluster.isMaster) {
     app.get('/api', function (req, res) {
         res.set('Content-Type', 'application/json');
         res.send('{"message":"Hello from the custom server!"}');
+    });
+
+    app.get('/env.js', function (req, res) {
+        res.set('Content-Type', 'application/javascript');
+        res.send('var env = ' + serialize(env));
     });
 
     // All remaining requests return the React app, so it can handle routing.
