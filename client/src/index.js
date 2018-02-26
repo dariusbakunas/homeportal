@@ -3,15 +3,17 @@ import ReactDOM from 'react-dom';
 import 'semantic-ui-css/semantic.min.css';
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
-import { Route } from 'react-router';
+import { Route, Switch } from 'react-router';
 import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
 import createHistory from 'history/createBrowserHistory';
 import reducers from './reducers';
 import './index.css';
-import Main from './containers/Main';
 import serviceSaga from './sagas';
 import registerServiceWorker from './registerServiceWorker';
+import PrivateRoute from './containers/Auth/PrivateRoute';
+import Callback from "./containers/Auth/Callback";
+import Main from './containers/Main';
 
 const history = createHistory();
 
@@ -42,7 +44,10 @@ sagaMiddleware.run(serviceSaga);
 ReactDOM.render(
     <Provider store={store}>
         <ConnectedRouter history={history}>
-            <Main/>
+            <Switch>
+              <Route path="/callback" exact component={Callback}/>
+              <PrivateRoute path="/" component={Main}/>
+            </Switch>
         </ConnectedRouter>
     </Provider>,
     document.getElementById('root'));
