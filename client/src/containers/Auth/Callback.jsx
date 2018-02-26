@@ -5,8 +5,6 @@ import * as actions from "../Main/actions";
 import { loadAuthInfo } from '../../utils/localStorage';
 import { Loader, Dimmer } from 'semantic-ui-react'
 
-// import loading from './loading.svg';
-
 export class Callback extends Component {
     componentDidMount() {
       const authInfo = loadAuthInfo();

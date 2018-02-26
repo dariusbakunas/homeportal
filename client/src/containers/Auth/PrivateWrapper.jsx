@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
+import { withRouter } from 'react-router';
 import { Loader, Dimmer } from 'semantic-ui-react'
 import * as actions from "../Main/actions";
 
@@ -9,13 +10,13 @@ export class PrivateWrapper extends React.PureComponent {
     super(props);
 
     if (!this.props.isAuthenticated) {
-      this.props.actions.login();
+      this.props.actions.login(this.props.location.pathname);
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (!nextProps.isAuthenticated) {
-      this.props.actions.login();
+      this.props.actions.login(this.props.location.pathname);
     }
   }
 
@@ -37,11 +38,11 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     actions: {
-      login: () => {
-        dispatch(actions.login.request());
+      login: (returnUrl) => {
+        dispatch(actions.login.request(returnUrl));
       },
     }
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PrivateWrapper);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PrivateWrapper));

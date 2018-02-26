@@ -6,7 +6,7 @@ import * as mainActions from './containers/Main/actions';
 
 const auth = new Auth();
 
-function* login() {
+function* login(action) {
   const authInfo = loadAuthInfo();
 
   if (authInfo) {
@@ -16,9 +16,11 @@ function* login() {
       fullName,
       accessToken,
       idToken,
-      expiresAt
+      expiresAt,
+      action.returnUrl,
     ));
   } else {
+    localStorage.setItem('return_url', action.returnUrl);
     auth.login();
   }
 }
@@ -31,8 +33,9 @@ function* logout() {
   yield put(mainActions.logout.success());
 }
 
-function* goToDashboard(action) {
-  yield put(push('/'));
+function* loginSuccess(action) {
+  const returnUrl = action.returnUrl ? action.returnUrl : '/';
+  yield put(push(returnUrl));
 }
 
 function* handleAuth(action) {
@@ -47,11 +50,14 @@ function* handleAuth(action) {
       localStorage.setItem('id_token', idToken);
       localStorage.setItem('expires_at', expiresAt);
 
+      const returnUrl = localStorage.getItem('return_url');
+
       yield put(mainActions.login.success(
         fullName,
         accessToken,
         idToken,
-        expiresAt
+        expiresAt,
+        returnUrl ? returnUrl : '/',
       ));
     } catch(err) {
       // we call login first and handleAuth second
@@ -66,6 +72,6 @@ export default function* rootSaga() {
     yield takeLatest(mainActions.login.requestType, login),
     yield takeLatest(mainActions.handleAuth.requestType, handleAuth),
     yield takeEvery(mainActions.logout.requestType, logout),
-    yield takeEvery(mainActions.login.successType, goToDashboard),
+    yield takeEvery(mainActions.login.successType, loginSuccess),
   ]);
 }

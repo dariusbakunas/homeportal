@@ -121,12 +121,10 @@ class Main extends Component {
             dimmed={this.state.sideBarVisible}
             style={{ paddingTop: '4em' }}
             onClick={this.closeSidebar}>
-            <Container>
-              <Switch>
-                <Route path="/vms" exact component={VMS}/>
-                <Route path="/dashboard" exact component={Dashboard}/>
-              </Switch>
-            </Container>
+            <Switch>
+              <Route path="/vms" exact component={VMS}/>
+              <Route path="/dashboard" exact component={Dashboard}/>
+            </Switch>
           </Sidebar.Pusher>
         </Sidebar.Pushable>
       </React.Fragment>
