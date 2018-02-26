@@ -1,4 +1,4 @@
-export const loadAuthInfo = () => {
+export const getAuthInfo = () => {
   const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
   if (expiresAt && new Date().getTime() < expiresAt) {
     const fullName = localStorage.getItem('full_name');
@@ -14,4 +14,8 @@ export const loadAuthInfo = () => {
   } else {
     return null;
   }
+};
+
+export const getReturnUrl = () => {
+  return localStorage.getItem('return_url');
 };

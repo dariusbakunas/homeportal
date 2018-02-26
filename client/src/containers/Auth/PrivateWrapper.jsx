@@ -10,13 +10,15 @@ export class PrivateWrapper extends React.PureComponent {
     super(props);
 
     if (!this.props.isAuthenticated) {
-      this.props.actions.login(this.props.location.pathname);
+      const returnUrl = this.props.location ? this.props.location.pathname : '/';
+      this.props.actions.login(returnUrl);
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (!nextProps.isAuthenticated) {
-      this.props.actions.login(this.props.location.pathname);
+      const returnUrl = this.props.location ? this.props.location.pathname : '/';
+      this.props.actions.login(returnUrl);
     }
   }
 

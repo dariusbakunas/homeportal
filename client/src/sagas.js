@@ -1,13 +1,13 @@
 import { call, all, put, takeLatest, takeEvery } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
 import Auth from './containers/Auth/Auth';
-import { loadAuthInfo } from './utils/localStorage';
+import { getAuthInfo } from './utils/localStorage';
 import * as mainActions from './containers/Main/actions';
 
 const auth = new Auth();
 
 function* login(action) {
-  const authInfo = loadAuthInfo();
+  const authInfo = getAuthInfo();
 
   if (authInfo) {
     const {fullName, accessToken, idToken, expiresAt} = authInfo;
