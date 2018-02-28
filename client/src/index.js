@@ -14,6 +14,7 @@ import registerServiceWorker from './registerServiceWorker';
 import PrivateRoute from './containers/Auth/PrivateRoute';
 import Callback from "./containers/Auth/Callback";
 import Main from './containers/Main';
+import Login from './containers/Login';
 
 const history = createHistory();
 
@@ -46,6 +47,7 @@ ReactDOM.render(
         <ConnectedRouter history={history}>
             <Switch>
               <Route path="/callback" exact component={Callback}/>
+              <Route path="/login" exact component={Login}/>
               <PrivateRoute path="/" component={Main}/>
             </Switch>
         </ConnectedRouter>

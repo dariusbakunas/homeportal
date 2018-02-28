@@ -3,30 +3,36 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { withRouter } from 'react-router';
 import { Loader, Dimmer } from 'semantic-ui-react'
-import * as actions from "../Main/actions";
 
 export class PrivateWrapper extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    if (!this.props.isAuthenticated) {
-      const returnUrl = this.props.location ? this.props.location.pathname : '/';
-      this.props.actions.login(returnUrl);
+    if (!props.isAuthenticated) {
+      this.goToLoginPage(props);
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (!nextProps.isAuthenticated) {
-      const returnUrl = this.props.location ? this.props.location.pathname : '/';
-      this.props.actions.login(returnUrl);
+      this.goToLoginPage(nextProps);
     }
   }
+
+  goToLoginPage = (props) => {
+    const returnUrl = props.location ? props.location.pathname : '/';
+
+    props.history.push({
+      pathname: '/login',
+      search: `?return=${returnUrl}`
+    })
+  };
 
   render() {
     return this.props.isAuthenticated ?
       this.props.children :
       <Dimmer active>
-        <Loader indeterminate>Authenticating...</Loader>
+        <Loader indeterminate>You must login first...</Loader>
       </Dimmer>
   }
 }
@@ -37,14 +43,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    actions: {
-      login: (returnUrl) => {
-        dispatch(actions.login.request(returnUrl));
-      },
-    }
-  }
-};
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PrivateWrapper));
+export default withRouter(connect(mapStateToProps, null)(PrivateWrapper));
