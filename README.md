@@ -32,6 +32,6 @@
 * Go to [http://localhost:3000/](http://localhost:3000/) to access the app
 
 
-### Diagram
+### Current deployment diagram
 
 ![diagram](https://github.com/dariusbakunas/homeportal/raw/master/assets/diagram.png)
