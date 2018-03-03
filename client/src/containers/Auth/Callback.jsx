@@ -18,6 +18,12 @@ export class Callback extends Component {
       }
     }
 
+    componentWillReceiveProps(nextProps) {
+      if (nextProps.isAuthenticated) {
+        this.props.history.push(getReturnUrl());
+      }
+    }
+
     render() {
         return (
           <Dimmer active>
