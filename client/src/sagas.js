@@ -71,8 +71,8 @@ function* handleAuth(action) {
 
 function *getDomainList(action) {
   try {
-    const domains = yield call(vmApi.getDomainList, action.accessToken);
-    yield put(vmActions.apiGetDomainList.success(domains));
+    const response = yield call(vmApi.getDomainList, action.accessToken);
+    yield put(vmActions.apiGetDomainList.success(response.entities.domains));
   } catch(err) {
     yield put(vmActions.apiGetDomainList.error(err));
   }
