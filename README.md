@@ -18,6 +18,7 @@
     REACT_APP_AUTH_AUDIENCE=
     REACT_APP_AUTH_RESPONSE_TYPE=
     REACT_APP_AUTH_SCOPE=
+    PYVIRT_API_HOSTNAME=
     ```
 
 * Start node and webpack dev server:
