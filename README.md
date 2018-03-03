@@ -4,7 +4,7 @@
 
 ### API projects:
 
-* [pyvirt-api](https://github.com/dariusbakunas/pyvirt-api) - for interactive with Xen host
+* [pyvirt-api](https://github.com/dariusbakunas/pyvirt-api) - for interacting with Xen host
 
 
 ### Local dev:
