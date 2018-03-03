@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Container, Table, Label } from 'semantic-ui-react';
 import * as actions from "./actions";
 import * as selectors from './selectors';
 
@@ -10,7 +11,30 @@ class VMS extends React.Component {
 
   render() {
     return (
-      <div>Virtual Machines</div>
+      <Container>
+        <Table unstackable selectable singleLine size='small'>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>ID</Table.HeaderCell>
+              <Table.HeaderCell>State</Table.HeaderCell>
+              <Table.HeaderCell>Name</Table.HeaderCell>
+              <Table.HeaderCell>UUID</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {
+              this.props.domains.map((domain) => (
+                <Table.Row>
+                  <Table.Cell>{domain.id}</Table.Cell>
+                  <Table.Cell><Label circular color={domain.isActive ? 'green' : 'red'} empty/></Table.Cell>
+                  <Table.Cell>{domain.name}</Table.Cell>
+                  <Table.Cell className='mono-font'>{domain.uuid}</Table.Cell>
+                </Table.Row>
+              ))
+            }
+          </Table.Body>
+        </Table>
+      </Container>
     );
   }
 }
@@ -18,6 +42,7 @@ class VMS extends React.Component {
 const mapStateToProps = (state) => {
   return {
     accessToken: selectors.accessToken(state),
+    domains: selectors.domainListSelector(state),
   };
 };
 
