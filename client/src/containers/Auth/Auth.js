@@ -2,19 +2,20 @@ import auth0 from 'auth0-js';
 
 export default class Auth {
     constructor() {
+      const env = this.getEnv();
+
       this.auth0 = new auth0.WebAuth({
-        domain: this.getEnvVariable('REACT_APP_AUTH_DOMAIN'),
-        clientID: this.getEnvVariable('REACT_APP_AUTH_CLIENT_ID'),
-        redirectUri: this.getEnvVariable('REACT_APP_AUTH_REDIRECT_URI'),
-        audience: this.getEnvVariable('REACT_APP_AUTH_AUDIENCE'),
-        responseType: this.getEnvVariable('REACT_APP_AUTH_RESPONSE_TYPE'),
-        scope: this.getEnvVariable('REACT_APP_AUTH_SCOPE'),
+        domain: env.REACT_APP_AUTH_DOMAIN,
+        clientID: env.REACT_APP_AUTH_CLIENT_ID,
+        redirectUri: env.REACT_APP_AUTH_REDIRECT_URI,
+        audience: env.REACT_APP_AUTH_AUDIENCE,
+        responseType: env.REACT_APP_AUTH_RESPONSE_TYPE,
+        scope: env.REACT_APP_AUTH_SCOPE,
       });
     }
 
-    getEnvVariable = (variable) => {
-      const env = window.env ? window.env : process.env;
-      return env[variable];
+    getEnv = () => {
+      return window.env ? window.env : process.env;
     };
 
     handleAuthentication = () => {
