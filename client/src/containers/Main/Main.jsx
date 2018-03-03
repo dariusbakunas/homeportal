@@ -18,6 +18,7 @@ import Dashboard from "../Dashboard/Dashboard";
 const styles = {
   mainLogoText: {
     fontFamily: "'Open Sans', sans-serif",
+    fontWeight: 300,
     letterSpacing: 2,
   }
 };
