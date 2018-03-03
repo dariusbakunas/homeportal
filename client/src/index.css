@@ -7,3 +7,7 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+.mono-font {
+  font-family: 'Roboto Mono', monospace;
+}
