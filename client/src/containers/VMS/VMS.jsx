@@ -15,8 +15,7 @@ class VMS extends React.Component {
         <Table unstackable selectable singleLine size='small'>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell>ID</Table.HeaderCell>
-              <Table.HeaderCell>State</Table.HeaderCell>
+              <Table.HeaderCell/>
               <Table.HeaderCell>Name</Table.HeaderCell>
               <Table.HeaderCell>UUID</Table.HeaderCell>
             </Table.Row>
@@ -24,8 +23,7 @@ class VMS extends React.Component {
           <Table.Body>
             {
               this.props.domains.map((domain) => (
-                <Table.Row>
-                  <Table.Cell>{domain.id}</Table.Cell>
+                <Table.Row key={domain.uuid}>
                   <Table.Cell><Label circular color={domain.isActive ? 'green' : 'red'} empty/></Table.Cell>
                   <Table.Cell>{domain.name}</Table.Cell>
                   <Table.Cell className='mono-font'>{domain.uuid}</Table.Cell>
