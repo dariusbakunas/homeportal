@@ -2,6 +2,10 @@
 
 [![Build Status](https://travis-ci.org/dariusbakunas/homeportal.svg?branch=master)](https://travis-ci.org/dariusbakunas/homeportal)
 
+### API projects:
+
+* [pyvirt-api](https://github.com/dariusbakunas/pyvirt-api) - for interactive with Xen host
+
 
 ### Local dev:
 

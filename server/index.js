@@ -48,9 +48,6 @@ if (cluster.isMaster) {
       pathRewrite: {
         '^/api/vms' : '/api',
       },
-      headers: {
-        host: process.env.PYVIRT_API_HOSTNAME,
-      }
     }));
 
   app.get('/env.js', function (req, res) {
