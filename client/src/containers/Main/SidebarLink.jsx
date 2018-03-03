@@ -6,6 +6,7 @@ import {
 } from 'semantic-ui-react';
 
 SidebarLink.propTypes = {
+  active: PropTypes.bool,
   name: PropTypes.string,
   label: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
@@ -21,7 +22,7 @@ function SidebarLink(props) {
   };
 
   return (
-    <Menu.Item as='a' name={props.name} onClick={handleClick}>
+    <Menu.Item as='a' name={props.name} onClick={handleClick} active={props.active}>
       <Icon name={props.icon} />
       {props.label}
     </Menu.Item>

@@ -5,7 +5,6 @@ import {connect} from "react-redux";
 import * as mainActions from "./actions";
 import {
   Button,
-  Container,
   Menu,
   Icon,
   Segment,
@@ -15,6 +14,13 @@ import {
 } from 'semantic-ui-react';
 import SidebarLink from './SidebarLink';
 import Dashboard from "../Dashboard/Dashboard";
+
+const styles = {
+  mainLogoText: {
+    fontFamily: "'Open Sans', sans-serif",
+    letterSpacing: 2,
+  }
+};
 
 class Main extends Component {
   constructor(props) {
@@ -86,12 +92,12 @@ class Main extends Component {
             </Button>
           </Button.Group>
         </Modal>
-        <Menu inverted fixed="top">
+        <Menu fixed="top" inverted>
           <Menu.Item icon onClick={this.toggleSidebar}>
             <Icon name='sidebar'/>
           </Menu.Item>
-          <Menu.Item header>
-            Home Portal
+          <Menu.Item header style={styles.mainLogoText}>
+            HOMEPORTAL
           </Menu.Item>
           <Menu.Menu position="right">
             <Menu.Item icon onClick={this.showSignOutModal}>
@@ -110,9 +116,11 @@ class Main extends Component {
             vertical>
             {
               sidebarLinks.map((link) => <SidebarLink
+                key={link.url}
                 label={link.label}
                 url={link.url}
                 icon={link.icon}
+                active={link.url === this.props.location.pathname}
                 onNavigate={this.handleNavigate}/>
               )
             }
