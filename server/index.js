@@ -43,7 +43,7 @@ if (cluster.isMaster) {
 
   app.use('/api/vms', proxy(
     {
-      target: `https://${process.env.PYVIRT_API_HOSTNAME}`,
+      target: `${process.env.PYVIRT_API_HOSTNAME}`,
       changeOrigin: true,
       pathRewrite: {
         '^/api/vms' : '/api',
