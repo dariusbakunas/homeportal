@@ -12,7 +12,7 @@ if (!process.env.REACT_APP_AUTH_SCOPE) {
 }
 
 const env = {
-  'API_URL': process.env.API_URL,
+  'API_HOST': process.env.API_HOST,
   'DYNO': process.env.DYNO || 'Not running on a dyno',
   'REACT_APP_AUTH_SCOPE': process.env.REACT_APP_AUTH_SCOPE,
   'REACT_APP_AUTH_DOMAIN': process.env.REACT_APP_AUTH_DOMAIN,
@@ -38,17 +38,24 @@ if (cluster.isMaster) {
 } else {
   const app = express();
 
+  const proxyConfig = {
+    target: process.env.API_HOST,
+    changeOrigin: true
+  };
+
+  if (process.env.API_BASE_PATH) {
+    proxyConfig.pathRewrite = {
+      '^/': process.env.API_BASE_PATH
+    }
+  }
+
+  const apiProxy = proxy(proxyConfig);
+
   // Priority serve any static files.
   app.use(express.static(path.resolve(__dirname, '../client/build')));
 
-  app.use('/api/vms', proxy(
-    {
-      target: `${process.env.PYVIRT_API_HOSTNAME}`,
-      changeOrigin: true,
-      pathRewrite: {
-        '^/api/vms' : '/api',
-      },
-    }));
+  app.use('/graphql', apiProxy);
+  app.use('/graphiql', apiProxy);
 
   app.get('/env.js', function (req, res) {
     res.set('Content-Type', 'application/javascript');
