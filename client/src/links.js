@@ -24,12 +24,12 @@ export const queryOrMutationLink = (config = {}) =>
     credentials: 'same-origin',
   });
 
-export const subscriptionLink = (config = {}) =>
-  new WebSocketLink({
-    uri:
-      process.env.NODE_ENV !== 'production'
-        ? 'ws://localhost:3010/subscriptions'
-        : 'wss://api.githunt.com/subscriptions',
-    options: { reconnect: true },
-    ...config,
-  });
+// export const subscriptionLink = (config = {}) =>
+//   new WebSocketLink({
+//     uri:
+//       process.env.NODE_ENV !== 'production'
+//         ? 'ws://localhost:3010/subscriptions'
+//         : 'ws://api.githunt.com/subscriptions',
+//     options: { reconnect: true },
+//     ...config,
+//   });
