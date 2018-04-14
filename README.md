@@ -5,6 +5,7 @@
 ### API projects:
 
 * [pyvirt-api](https://github.com/dariusbakunas/pyvirt-api) - for interacting with Xen host
+* [homeportal-api](https://github.com/dariusbakunas/homeportal-api) - GraphQL server
 
 
 ### Local dev:
