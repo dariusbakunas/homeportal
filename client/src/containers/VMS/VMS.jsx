@@ -31,7 +31,7 @@ class VMS extends React.Component {
               {
                 domains.map((domain) => (
                   <Table.Row key={domain.uuid}>
-                    <Table.Cell><Label circular color={domain.isActive ? 'green' : 'red'} empty/></Table.Cell>
+                    <Table.Cell><Label circular color={domain.state === 'running' ? 'green' : 'red'} empty/></Table.Cell>
                     <Table.Cell>{domain.name}</Table.Cell>
                     <Table.Cell className='mono-font'>{domain.uuid}</Table.Cell>
                   </Table.Row>

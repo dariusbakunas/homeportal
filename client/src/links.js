@@ -1,6 +1,5 @@
 import { createHttpLink } from 'apollo-link-http';
 import { onError } from 'apollo-link-error';
-import { WebSocketLink } from 'apollo-link-ws';
 
 export const errorLink = onError(({ graphQLErrors, networkError }) => {
   /*

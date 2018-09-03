@@ -63,7 +63,7 @@ class Main extends Component {
     return [
       { label: 'Home', icon: 'home', url: '/dashboard' },
       { label: 'VMs', icon: 'desktop', url: '/vms' },
-      { label: 'Storage', icon: 'disk outline', url: '/storage' }
+      { label: 'Storage', icon: 'hdd outline', url: '/storage' }
     ]
   };
 

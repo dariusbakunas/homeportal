@@ -7,7 +7,7 @@ export const domainSchema = new schema.Entity('domains', {}, {
       id: entity.id,
       name: entity.name,
       uuid: entity.uuid,
-      isActive: entity.isActive,
+      state: entity.state,
     };
   }
 });
