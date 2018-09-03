@@ -5,7 +5,7 @@ export const DOMAIN_QUERY = gql`
     domains {
       id
       name
-      isActive
+      state
       uuid
     }
   }

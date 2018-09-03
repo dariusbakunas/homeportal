@@ -3,8 +3,6 @@ import { push } from 'react-router-redux';
 import Auth from './containers/Auth/Auth';
 import { getAuthInfo } from './utils/localStorage';
 import * as mainActions from './containers/Main/actions';
-import * as vmActions from './containers/VMS/actions';
-import * as vmApi from './services/pyvirtApi';
 
 const auth = new Auth();
 
@@ -69,21 +67,10 @@ function* handleAuth(action) {
   }
 }
 
-function *getDomainList(action) {
-  try {
-    const response = yield call(vmApi.getDomainList, action.accessToken);
-    yield put(vmActions.apiGetDomainList.success(response.entities.domains));
-  } catch(err) {
-    yield put(vmActions.apiGetDomainList.error(err));
-  }
-}
-
 export default function* rootSaga() {
   yield all([
     yield takeLatest(mainActions.login.requestType, login),
     yield takeLatest(mainActions.handleAuth.requestType, handleAuth),
-    yield takeLatest(vmActions.apiGetDomainList.requestType, getDomainList),
-
     yield takeEvery(mainActions.logout.requestType, logout),
     yield takeEvery(mainActions.login.successType, loginSuccess),
   ]);
