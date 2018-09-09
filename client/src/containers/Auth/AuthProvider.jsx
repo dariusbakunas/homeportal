@@ -2,16 +2,20 @@ import React from 'react';
 import Auth from "./Auth";
 
 const AuthContext = React.createContext();
-const auth = new Auth();
 
 class AuthProvider extends React.Component {
-  state = {
-    isAuthenticated: false,
-  };
+  constructor(props) {
+    super(props);
+    this.auth = new Auth();
+
+    this.state = {
+      isAuthenticated: false,
+    };
+  }
 
   renewToken= () => {
     try {
-      const { idTokenPayload, accessToken, idToken, expiresIn } = auth.renewToken();
+      const { idTokenPayload, accessToken, idToken, expiresIn } = this.auth.renewToken();
       const expiresAt = JSON.stringify((expiresIn * 1000) + new Date().getTime());
 
 
@@ -23,7 +27,7 @@ class AuthProvider extends React.Component {
   handleAuth = (locationHash) => {
     return new Promise((resolve, reject) => {
       if (/access_token|id_token|error/.test(locationHash)) {
-        auth.handleAuthentication()
+        this.auth.handleAuthentication()
           .then(({ idTokenPayload, accessToken, idToken, expiresIn }) => {
             const expiresAt = JSON.stringify((expiresIn * 1000) + new Date().getTime());
 
@@ -91,7 +95,7 @@ class AuthProvider extends React.Component {
   render() {
     return (
       <AuthContext.Provider value={{
-        login: auth.login,
+        login: this.auth.login,
         handleAuth: this.handleAuth,
         logout: this.logout,
         isAuthenticated: this.state.isAuthenticated,
