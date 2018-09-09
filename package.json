@@ -10,8 +10,12 @@
     "heroku-postbuild": "cd client/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
     "dev-client": "cd client && npm start",
     "dev-server": "nodemon server.js",
-    "dev": "concurrently --kill-others-on-fail \"npm run dev-server\" \"npm run dev-client\""
+    "dev": "concurrently --kill-others-on-fail \"npm run dev-server\" \"npm run dev-client\"",
+    "test-client": "CI=true cd client && npm test"
   },
+  "pre-commit": [
+    "test-client"
+  ],
   "cacheDirectories": [
     "node_modules",
     "client/node_modules"
@@ -36,6 +40,7 @@
   "license": "MIT",
   "devDependencies": {
     "concurrently": "^4.0.1",
-    "nodemon": "^1.18.4"
+    "nodemon": "^1.18.4",
+    "pre-commit": "^1.2.2"
   }
 }
