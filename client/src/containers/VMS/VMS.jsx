@@ -1,7 +1,13 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
-import { Container, Table, Label, Dimmer, Loader } from 'semantic-ui-react';
+import { Container, Label, Loader, Grid, Card } from 'semantic-ui-react';
 import { DOMAIN_QUERY } from './queries';
+
+const styles = {
+  uuid: {
+    fontSize: '0.8em',
+  }
+};
 
 class VMS extends React.Component {
   render() {
@@ -18,28 +24,23 @@ class VMS extends React.Component {
     } else {
       return (
         <Container>
-          <Table unstackable selectable singleLine size='small'>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell/>
-                <Table.HeaderCell>Name</Table.HeaderCell>
-                <Table.HeaderCell>UUID</Table.HeaderCell>
-                <Table.HeaderCell>State</Table.HeaderCell>
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {
-                domains.map((domain) => (
-                  <Table.Row key={domain.uuid}>
-                    <Table.Cell><Label circular color={domain.state === 'running' ? 'green' : 'red'} empty/></Table.Cell>
-                    <Table.Cell>{domain.name}</Table.Cell>
-                    <Table.Cell className='mono-font'>{domain.uuid}</Table.Cell>
-                    <Table.Cell>{domain.state}</Table.Cell>
-                  </Table.Row>
-                ))
-              }
-            </Table.Body>
-          </Table>
+          <Grid stackable columns={2}>
+            {
+              domains.map((domain) => (
+                <Grid.Column mobile={16} tablet={8} computer={4} key={domain.uuid}>
+                  <Card fluid>
+                    <Card.Content>
+                      <Card.Header>{domain.name}</Card.Header>
+                      <Card.Meta style={styles.uuid}>{domain.uuid}</Card.Meta>
+                    </Card.Content>
+                    <Card.Content extra>
+                      <Label circular color={domain.state === 'running' ? 'green' : 'red'} empty/> {domain.state}
+                    </Card.Content>
+                  </Card>
+                </Grid.Column>
+              ))
+            }
+          </Grid>
         </Container>
       );
     }
