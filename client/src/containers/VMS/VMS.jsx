@@ -1,6 +1,5 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
-import { Query } from 'react-apollo';
 import { Container, Table, Label, Dimmer, Loader } from 'semantic-ui-react';
 import { DOMAIN_QUERY } from './queries';
 
@@ -25,6 +24,7 @@ class VMS extends React.Component {
                 <Table.HeaderCell/>
                 <Table.HeaderCell>Name</Table.HeaderCell>
                 <Table.HeaderCell>UUID</Table.HeaderCell>
+                <Table.HeaderCell>State</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -34,6 +34,7 @@ class VMS extends React.Component {
                     <Table.Cell><Label circular color={domain.state === 'running' ? 'green' : 'red'} empty/></Table.Cell>
                     <Table.Cell>{domain.name}</Table.Cell>
                     <Table.Cell className='mono-font'>{domain.uuid}</Table.Cell>
+                    <Table.Cell>{domain.state}</Table.Cell>
                   </Table.Row>
                 ))
               }
