@@ -2,17 +2,19 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { Callback } from "../Callback";
 
-test('Callback dispatches handleAuth with current location hash', () => {
-   const actions = {
-       handleAuth: jest.fn(),
+test('Callback calls handleAuth with current location hash on mount', () => {
+   const authContext = {
+      handleAuth: jest.fn(),
    };
+
+   authContext.handleAuth.mockReturnValue(Promise.resolve({}));
 
    const location = {
        hash: 'TEST_LOCATION_HASH',
    };
 
-   shallow(<Callback actions={actions} location={location}/>);
+   shallow(<Callback location={location} authContext={authContext}/>);
 
-   expect(actions.handleAuth.mock.calls.length).toBe(1);
-   expect(actions.handleAuth.mock.calls[0][0]).toBe(location.hash);
+   expect(authContext.handleAuth.mock.calls.length).toBe(1);
+   expect(authContext.handleAuth.mock.calls[0][0]).toBe(location.hash);
 });

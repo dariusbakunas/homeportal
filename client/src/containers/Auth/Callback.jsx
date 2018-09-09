@@ -1,55 +1,42 @@
 import React, { Component } from 'react';
-import {connect} from "react-redux";
 import { withRouter } from 'react-router';
-import * as actions from "../Main/actions";
-import { getAuthInfo, getReturnUrl } from '../../utils/localStorage';
 import { Loader, Dimmer } from 'semantic-ui-react'
+import withAuthContext from '../../HOC/withAuthContext';
 
 export class Callback extends Component {
-    componentDidMount() {
-      const authInfo = getAuthInfo();
+    state = {
+      error: false,
+    };
 
-      if (authInfo) {
-        // if local storage still has valid auth info use that instead
-        const {fullName, accessToken, idToken, expiresAt} = authInfo;
-        this.props.actions.loginSuccess(fullName, accessToken, idToken, expiresAt, getReturnUrl() || '/');
-      } else {
-        this.props.actions.handleAuth(this.props.location.hash);
-      }
+    componentDidMount() {
+      this.props.authContext.handleAuth(this.props.location.hash)
+        .then(() => {
+          this.props.history.push(this.getReturnUrl());
+        })
+        .catch((err) => {
+          this.error = err;
+        });
     }
 
+    getReturnUrl = () => {
+      return localStorage.getItem('return_url');
+    };
+
     componentWillReceiveProps(nextProps) {
-      if (nextProps.isAuthenticated) {
-        this.props.history.push(getReturnUrl());
+      if (nextProps.authContext.isAuthenticated) {
+        this.props.history.push(this.getReturnUrl());
       }
     }
 
     render() {
         return (
-          <Dimmer active>
-            <Loader indeterminate>Loading...</Loader>
-          </Dimmer>
+          !this.state.error ?
+            <Dimmer active>
+              <Loader indeterminate>Loading...</Loader>
+            </Dimmer> :
+            <div>Error occurred</div>
         );
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        actions: {
-            handleAuth: (locationHash) => {
-                dispatch(actions.handleAuth.request(locationHash))
-            },
-            loginSuccess: (fullName, accessToken, idToken, expiresAt) => {
-              dispatch(actions.login.success(fullName, accessToken, idToken, expiresAt));
-            },
-        }
-    }
-};
-
-const mapStateToProps = (state) => {
-  return {
-    isAuthenticated: state.auth.isAuthenticated,
-  };
-};
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Callback));
+export default withAuthContext(withRouter(Callback));

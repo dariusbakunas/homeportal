@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Redirect, Switch, withRouter } from 'react-router';
 import VMS from "../VMS";
-import {connect} from "react-redux";
-import * as mainActions from "./actions";
 import {
   Button,
   Menu,
@@ -14,6 +12,7 @@ import {
 } from 'semantic-ui-react';
 import SidebarLink from './SidebarLink';
 import Dashboard from "../Dashboard/Dashboard";
+import withAuthContext from '../../HOC/withAuthContext';
 
 const styles = {
   mainLogoText: {
@@ -88,7 +87,7 @@ class Main extends Component {
             <Button onClick={this.closeSignOutModal}>
               Cancel
             </Button>
-            <Button onClick={this.props.actions.logout}>
+            <Button onClick={this.props.authContext.logout}>
               Sign Out
             </Button>
           </Button.Group>
@@ -141,14 +140,4 @@ class Main extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    actions: {
-      logout: () => {
-        dispatch(mainActions.logout.request());
-      }
-    }
-  };
-};
-
-export default withRouter(connect(null, mapDispatchToProps)(Main));
+export default withAuthContext(withRouter(Main));

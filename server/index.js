@@ -1,9 +1,8 @@
 const express = require('express');
 const path = require('path');
-const cluster = require('cluster');
-const numCPUs = require('os').cpus().length;
 const serialize = require('serialize-javascript');
 const proxy = require('http-proxy-middleware');
+const helmet = require('helmet');
 
 const PORT = process.env.PORT || 5000;
 
@@ -22,52 +21,44 @@ const env = {
   'REACT_APP_AUTH_REDIRECT_URI': process.env.REACT_APP_AUTH_REDIRECT_URI,
 };
 
-// Multi-process to utilize all CPU cores.
-if (cluster.isMaster) {
-  console.error(`Node cluster master ${process.pid} is running`);
+const app = express();
 
-  // Fork workers.
-  for (let i = 0; i < numCPUs; i++) {
-    cluster.fork();
-  }
-
-  cluster.on('exit', (worker, code, signal) => {
-    console.error(`Node cluster worker ${worker.process.pid} exited: code ${code}, signal ${signal}`);
-  });
-
-} else {
-  const app = express();
-
-  const proxyConfig = {
-    target: process.env.API_HOST,
-    changeOrigin: true
-  };
-
-  if (process.env.API_BASE_PATH) {
-    proxyConfig.pathRewrite = {
-      '^/': process.env.API_BASE_PATH
-    }
-  }
-
-  const apiProxy = proxy(proxyConfig);
-
-  // Priority serve any static files.
-  app.use(express.static(path.resolve(__dirname, '../client/build')));
-
-  app.use('/graphql', apiProxy);
-  app.use('/graphiql', apiProxy);
-
-  app.get('/env.js', function (req, res) {
-    res.set('Content-Type', 'application/javascript');
-    res.send('var env = ' + serialize(env));
-  });
-
-  // All remaining requests return the React app, so it can handle routing.
-  app.get('*', function(request, response) {
-    response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
-  });
-
-  app.listen(PORT, function () {
-    console.error(`Node cluster worker ${process.pid}: listening on port ${PORT}`);
-  });
+if (app.get('env') === 'production') {
+  sessionConfig.cookie.secure = true; // serve secure cookies, requires https
 }
+
+app.use(helmet());
+
+const proxyConfig = {
+  target: process.env.API_HOST,
+  changeOrigin: true
+};
+
+if (process.env.API_BASE_PATH) {
+  proxyConfig.pathRewrite = {
+    '^/': process.env.API_BASE_PATH
+  }
+}
+
+const apiProxy = proxy(proxyConfig);
+
+// Priority serve any static files.
+app.use(express.static(path.resolve(__dirname, '../client/build')));
+
+app.use('/graphql', apiProxy);
+app.use('/graphiql', apiProxy);
+
+app.get('/env.js', function (req, res) {
+  res.set('Content-Type', 'application/javascript');
+  res.send('var env = ' + serialize(env));
+});
+
+// // All remaining requests return the React app, so it can handle routing.
+// app.get('*', ensureLoggedIn('/api/login'), function(request, response) {
+//   response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+// });
+
+app.listen(PORT, function () {
+  console.error(`Node cluster worker ${process.pid}: listening on port ${PORT}`);
+});
+

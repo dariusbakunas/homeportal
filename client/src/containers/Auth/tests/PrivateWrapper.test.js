@@ -7,8 +7,12 @@ test('it does not render children if isAuthenticated is false', () => {
     push: jest.fn(),
   };
 
+  const authContext = {
+    isAuthenticated: false,
+  };
+
   const element = shallow(
-    <PrivateWrapper isAuthenticated={false} history={history}>
+    <PrivateWrapper authContext={authContext} history={history}>
       I'm logged in
     </PrivateWrapper>
   );
@@ -21,8 +25,12 @@ test('it should render children if isAuthenticated is true', () => {
     push: jest.fn(),
   };
 
+  const authContext = {
+    isAuthenticated: true,
+  };
+
   const element = shallow(
-    <PrivateWrapper isAuthenticated={true} history={history}>
+    <PrivateWrapper authContext={authContext} history={history}>
       I'm logged in
     </PrivateWrapper>
   );
@@ -35,15 +43,21 @@ test('user should be taken to login page when isAuthenticated changes to false',
     push: jest.fn(),
   };
 
+  const authContext = {
+    isAuthenticated: true,
+  };
+
   const element = shallow(
-    <PrivateWrapper isAuthenticated={true} history={history} location={{ pathname: '/vms' }}>
+    <PrivateWrapper authContext={authContext} history={history} location={{ pathname: '/vms' }}>
       I'm logged in
     </PrivateWrapper>
   );
   expect(history.push.mock.calls.length).toBe(0);
 
   element.setProps({
-    isAuthenticated: false,
+    authContext: {
+      isAuthenticated: false,
+    },
   });
 
   expect(history.push.mock.calls.length).toBe(1);
