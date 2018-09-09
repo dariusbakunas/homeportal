@@ -53,10 +53,10 @@ app.get('/env.js', function (req, res) {
   res.send('var env = ' + serialize(env));
 });
 
-// // All remaining requests return the React app, so it can handle routing.
-// app.get('*', ensureLoggedIn('/api/login'), function(request, response) {
-//   response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
-// });
+// All remaining requests return the React app, so it can handle routing.
+app.get('*', function(request, response) {
+  response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+});
 
 app.listen(PORT, function () {
   console.error(`Node cluster worker ${process.pid}: listening on port ${PORT}`);
