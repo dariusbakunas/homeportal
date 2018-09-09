@@ -15,6 +15,6 @@ test('Callback calls handleAuth with current location hash on mount', () => {
 
    shallow(<Callback location={location} authContext={authContext}/>);
 
-   expect(authContext.handleAuth.mock.calls.length).toBe(2);
+   expect(authContext.handleAuth.mock.calls.length).toBe(1);
    expect(authContext.handleAuth.mock.calls[0][0]).toBe(location.hash);
 });
