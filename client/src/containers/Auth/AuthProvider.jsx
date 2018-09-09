@@ -38,10 +38,6 @@ class AuthProvider extends React.Component {
             this.setState(() => {
               return {
                 isAuthenticated: true,
-                tokens: {
-                  accessToken,
-                  idToken,
-                }
               }
             }, () => {
               resolve({ idTokenPayload, accessToken, idToken, expiresAt });
@@ -51,7 +47,6 @@ class AuthProvider extends React.Component {
             this.setState(() => {
               return {
                 isAuthenticated: false,
-                tokens: {},
               }
             }, () => {
               reject(err);
@@ -70,26 +65,17 @@ class AuthProvider extends React.Component {
 
     this.setState({
       isAuthenticated: false,
-      tokens: {},
     });
   };
 
   componentDidMount() {
     const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-    if (expiresAt && new Date().getTime() < expiresAt) {
-      this.setState({
-        tokens: {
-          accessToken: localStorage.getItem('access_token'),
-          idToken: localStorage.getItem('id_token'),
-        },
-        isAuthenticated: true,
-      });
-    } else {
-      this.setState({
-        isAuthenticated: false,
-        tokens: {},
-      });
-    }
+
+    const isAuthenticated = expiresAt && new Date().getTime() < expiresAt;
+
+    this.setState({
+      isAuthenticated
+    });
   }
 
   render() {
@@ -98,8 +84,7 @@ class AuthProvider extends React.Component {
         login: this.auth.login,
         handleAuth: this.handleAuth,
         logout: this.logout,
-        isAuthenticated: this.state.isAuthenticated,
-        tokens: this.state.tokens,
+        isAuthenticated: this.state.isAuthenticated
       }}>
         {this.props.children}
       </AuthContext.Provider>
