@@ -31,8 +31,3 @@
     ```% npm run dev```
 
 * Go to [http://localhost:3000/](http://localhost:3000/) to access the app
-
-
-### Current deployment diagram
-
-![diagram](https://github.com/dariusbakunas/homeportal/raw/master/assets/diagram.png)
