@@ -23,10 +23,6 @@ const env = {
 
 const app = express();
 
-if (app.get('env') === 'production') {
-  sessionConfig.cookie.secure = true; // serve secure cookies, requires https
-}
-
 app.use(helmet());
 
 const proxyConfig = {

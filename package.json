@@ -11,7 +11,7 @@
     "dev-client": "cd client && npm start",
     "dev-server": "nodemon server.js",
     "dev": "concurrently --kill-others-on-fail \"npm run dev-server\" \"npm run dev-client\"",
-    "test-client": "CI=true cd client && npm test"
+    "test-client": "cd client && CI=true npm test"
   },
   "pre-commit": [
     "test-client"
