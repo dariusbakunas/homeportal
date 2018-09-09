@@ -1,20 +1,17 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { createSelector } from 'reselect';
 import { withRouter } from 'react-router';
 import { Loader, Dimmer } from 'semantic-ui-react'
+import withAuthContext from '../../HOC/withAuthContext';
 
 export class PrivateWrapper extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    if (!props.isAuthenticated) {
-      this.goToLoginPage(props);
+  componentDidMount() {
+    if (!this.props.authContext.isAuthenticated) {
+      this.goToLoginPage(this.props);
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.isAuthenticated) {
+    if (!nextProps.authContext.isAuthenticated) {
       this.goToLoginPage(nextProps);
     }
   }
@@ -29,7 +26,7 @@ export class PrivateWrapper extends React.PureComponent {
   };
 
   render() {
-    return this.props.isAuthenticated ?
+    return this.props.authContext.isAuthenticated ?
       this.props.children :
       <Dimmer active>
         <Loader indeterminate>You must login first...</Loader>
@@ -37,10 +34,4 @@ export class PrivateWrapper extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    isAuthenticated: state.auth.isAuthenticated,
-  };
-};
-
-export default withRouter(connect(mapStateToProps, null)(PrivateWrapper));
+export default withAuthContext(withRouter(PrivateWrapper));

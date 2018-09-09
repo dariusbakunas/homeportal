@@ -1,38 +1,31 @@
 import React from 'react';
 import { Button } from 'semantic-ui-react';
-import { connect } from 'react-redux';
 import Logo from './Logo.png';
-import * as actions from "../Main/actions";
-import { getAuthInfo } from "../../utils/localStorage";
+import { withRouter } from 'react-router-dom'
+import withAuthContext from '../../HOC/withAuthContext';
 
 class Login extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    const authInfo = getAuthInfo();
-
-    if (authInfo) {
-      const {fullName, accessToken, idToken, expiresAt} = authInfo;
-
-      this.props.actions.loginSuccess(
-        fullName,
-        accessToken,
-        idToken,
-        expiresAt,
-        this.getQueryParam(props, 'return'),
-      );
+  componentDidMount() {
+    if (this.props.authContext.isAuthenticated) {
+      const returnUrl = this.getQueryParam('return');
+      this.props.history.push(returnUrl);
     }
   }
 
-  getQueryParam = (props, param) => {
-    const params = new URLSearchParams(props.location.search);
+  getQueryParam = (param) => {
+    const params = new URLSearchParams(this.props.location.search);
     return params.get(param);
   };
 
   handleLogin = () => {
-    this.props.actions.login(
-      this.getQueryParam(this.props, 'return')
-    );
+    const returnUrl = this.getQueryParam('return');
+
+    if (this.props.authContext.isAuthenticated) {
+      this.props.history.push(returnUrl);
+    }
+
+    localStorage.setItem('return_url', returnUrl);
+    this.props.authContext.login();
   };
 
   render() {
@@ -64,17 +57,4 @@ const styles = {
   }
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    actions: {
-      login: (returnUrl) => {
-        dispatch(actions.login.request(returnUrl));
-      },
-      loginSuccess: (fullName, accessToken, idToken, expiresAt, returnUrl) => {
-        dispatch(actions.login.success(fullName, accessToken, idToken, expiresAt, returnUrl));
-      },
-    }
-  }
-};
-
-export default connect(null, mapDispatchToProps)(Login);
+export default withAuthContext(withRouter(Login));
